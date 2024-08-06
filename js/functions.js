@@ -1,12 +1,8 @@
 const  CIRCULO = "circulo";
 const EQUIS = "equis";
 
-const  mensaje = document.getElementById("mensaje")
-
-let intentos;
-let posiciones = [0,1,2,3,4,5,6,7,8];
-let posicionesX = [];
-let posicionesO = [];
+const mensaje = document.getElementById("mensaje")
+let  posiciones = [0,1,2,3,4,5,6,7,8]
 
 const COMBINACIONES_GANADORAS = [
     [0,1,2],
@@ -27,7 +23,6 @@ let turnoCirculo = false;
 comenzarJuego()
 
 function comenzarJuego(){
-    intentos = 0;
     turnoCirculo = false;
     celdas.forEach(celda => {
         celda.addEventListener("click", manejarClick, {once:true})
@@ -35,44 +30,34 @@ function comenzarJuego(){
 }
 
 function manejarClick(evento){
-    intentos++;
-
     const celda = evento.target;
-    const jugadorClase = turnoCirculo ? CIRCULO : EQUIS
+    let jugadorClase = turnoCirculo ? CIRCULO : EQUIS
 
-    posiciones.splice(0,1)
+    ponerMarca(celda,jugadorClase);
+    revisarGanador(jugadorClase) ? mensaje.textContent = "El Ganador es: "+ jugadorClase : console.log("");
 
+    posiciones = eliminarElemento(posiciones,celda.id);
     console.log(posiciones);
-
-    //turnoCirculo ? ponerMarca(celdas[obtenerRandom(posiciones.splice(evento.target.id,1))], jugadorClase) : ponerMarca(celda,jugadorClase)
-
-    //let posicion = obtenerRandom(posiciones.splice(evento.target.id),1)
-    //console.log("targeted: ",);
+    cambiarJugador();
 
     if(turnoCirculo){
-        let posicion = obtenerRandom(posiciones.splice(evento.target.id),1)
-        celda.removeEventListener("click", manejarClick)
-        celda[posicion].classList.add("circulo");
-        
+        const posicion = obtenerRandom(posiciones)
+        jugadorClase = turnoCirculo ? CIRCULO : EQUIS
+        //celdas[posicion].removeEventListener("click",manejarClick)
+        celdas[posicion].classList.add(CIRCULO);
+        posiciones = eliminarElemento(posiciones,posicion);
+        console.log(posiciones);
+        revisarGanador(jugadorClase) ? mensaje.textContent = "El Ganador es: "+ jugadorClase : console.log("");
+        cambiarJugador();
     }
 
-    //ponerMarca(celda,jugadorClase);
-
-   
-    //console.log("Random Number", posicion);
-
-    console.log("intentos: ",intentos);
-
-    if(intentos>=5 && revisarGanador(jugadorClase)){
-       
-        mensaje.innerHTML = "El ganador es el jugador es: "+ jugadorClase
-        
-    }
-    turnoCirculo = !turnoCirculo; 
+     
 }
+
 
 function ponerMarca(celda,jugadorClase){
     celda.classList.add(jugadorClase);
+    
 }
 
 function revisarGanador(jugadorClase) {
@@ -85,11 +70,24 @@ function revisarGanador(jugadorClase) {
 }
 
 function cambiarJugador(){
-
+    turnoCirculo = !turnoCirculo;
 }
 
+
+//obtenemos un numero aleatorio del array
 function obtenerRandom(disponiblesArr){
         const randomIndex = Math.floor(Math.random() * (disponiblesArr.length -1));
         const randomElement = disponiblesArr[randomIndex];
         return randomElement;
+}
+
+function eliminarElemento(array, elementoEliminar){
+    let newArr = []
+
+    array.forEach(element => {
+        element == elementoEliminar ? console.log("") : newArr.push(element)
+        
+    });
+
+    return newArr;
 }

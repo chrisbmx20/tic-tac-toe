@@ -4,6 +4,7 @@ const EQUIS = "equis";
 const mensaje = document.getElementById("mensaje")
 let  posiciones = [0,1,2,3,4,5,6,7,8]
 
+
 const COMBINACIONES_GANADORAS = [
     [0,1,2],
     [3,4,5],
@@ -31,6 +32,7 @@ function comenzarJuego(){
 
 function manejarClick(evento){
     const celda = evento.target;
+    
     let jugadorClase = turnoCirculo ? CIRCULO : EQUIS
 
     ponerMarca(celda,jugadorClase);
@@ -39,6 +41,9 @@ function manejarClick(evento){
     posiciones = eliminarElemento(posiciones,celda.id);
     console.log(posiciones);
     cambiarJugador();
+
+    revisarGanador(jugadorClase)? celda.removeEventListener("click", manejarClick) : console.log("");
+    
 
     if(turnoCirculo){
         const posicion = obtenerRandom(posiciones)

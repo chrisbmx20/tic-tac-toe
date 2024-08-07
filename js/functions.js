@@ -67,6 +67,7 @@ function manejarClick(evento){
         const posicion = obtenerRandom(posiciones)
         jugadorClase = turnoCirculo ? CIRCULO : EQUIS
         celdas[posicion].classList.add(CIRCULO);
+        celdas[posicion].removeEventListener("click", manejarClick)
         posiciones = eliminarElemento(posiciones,posicion);
         console.log(posiciones);
 

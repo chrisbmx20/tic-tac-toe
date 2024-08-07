@@ -2,7 +2,6 @@
     padding:0;
     margin:0;
     box-sizing: border-box;
-
 }
 
 body{
@@ -11,7 +10,6 @@ body{
     
     
 }
-
 
 #reset{
     margin:10px auto;
@@ -22,13 +20,56 @@ body{
     cursor:pointer;
 }
 
+.contenedor{
+    width: 460px;
+    height: 300px;
+    margin: auto;
+    display: flex;
+
+
+}
+
 #tablero{
-    width:300px;
+    width:310px;
     height: 300px;
     display: flex;
-    margin: 100px auto;
     flex-wrap: wrap;
+    justify-content: center;
 }
+
+.puntaje{
+    width: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.puntaje div p {
+    font-size: 50px;
+    font-weight: 700;
+    padding:10px;
+}
+
+.puntaje span{
+    font-size: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding:10px;
+
+}
+
+.puntaje div{
+    display:flex;
+    margin-top:20px;
+    width: 70%;
+    background-color: #ffffff;
+    border-radius: 5px;
+
+}
+
 
 .celda{
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;

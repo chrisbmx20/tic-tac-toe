@@ -7,19 +7,33 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <div id="tablero">
-        <div class="celda" id="0" data-cell></div>
-        <div class="celda" id="1" data-cell></div>
-        <div class="celda" id="2" data-cell></div>
-        <div class="celda" id="3" data-cell></div>
-        <div class="celda" id="4" data-cell></div>
-        <div class="celda" id="5" data-cell></div>
-        <div class="celda" id="6" data-cell></div>
-        <div class="celda" id="7" data-cell></div>
-        <div class="celda" id="8" data-cell></div>
-    </div>
 
-    <button id="reset" type="reset">Reiniciar Juego</button>
+    <div class="contenedor">
+        <div id="tablero">
+            <div class="celda" id="0" data-cell></div>
+            <div class="celda" id="1" data-cell></div>
+            <div class="celda" id="2" data-cell></div>
+            <div class="celda" id="3" data-cell></div>
+            <div class="celda" id="4" data-cell></div>
+            <div class="celda" id="5" data-cell></div>
+            <div class="celda" id="6" data-cell></div>
+            <div class="celda" id="7" data-cell></div>
+            <div class="celda" id="8" data-cell></div>
+        </div>
+        <div class="puntaje">
+            <div>
+                <p>X</p>
+                <span id="jugador1"></span>
+            </div>
+
+            <div>
+                <p>O</p>
+                <span id="jugador2"></span>
+            </div>
+
+            <button id="reset" type="reset">Reiniciar Juego</button>
+        </div>
+    </div>
 
     <h2 id="mensaje"></h2>
 

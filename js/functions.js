@@ -2,9 +2,10 @@ const  CIRCULO = "circulo";
 const EQUIS = "equis";
 
 const mensaje = document.getElementById("mensaje")
-let  posiciones = [0,1,2,3,4,5,6,7,8]
+let  posiciones;
 
-let jugadores = {
+
+let jugadores = JSON.parse(localStorage.getItem("puntaje")) || {
     jugador1 : 0,
     jugador2: 0
 }
@@ -31,6 +32,8 @@ comenzarJuego()
 reiniciar.addEventListener("click",comenzarJuego);
 
 function comenzarJuego(){
+    posiciones = [0,1,2,3,4,5,6,7,8]
+
     turnoCirculo = false;
     mensaje.innerHTML = "";
     celdas.forEach(celda => {
@@ -53,6 +56,13 @@ function manejarClick(evento){
         celdas.forEach(celda => {
             celda.removeEventListener("click", manejarClick)
         });
+
+        jugadorClase == CIRCULO ? jugadores.jugador2++ :jugadores.jugador1++
+
+        localStorage.setItem("puntaje",JSON.stringify(jugadores))
+
+        document.getElementById("jugador1").textContent = jugadores.jugador1;
+        document.getElementById("jugador2").textContent = jugadores.jugador2;
        
     }
 
@@ -60,10 +70,8 @@ function manejarClick(evento){
     console.log(posiciones);
     cambiarJugador();
 
-   
-    
-
     if(turnoCirculo && posiciones.length>0){
+
         const posicion = obtenerRandom(posiciones)
         jugadorClase = turnoCirculo ? CIRCULO : EQUIS
         celdas[posicion].classList.add(CIRCULO);
@@ -76,17 +84,20 @@ function manejarClick(evento){
             celdas.forEach(celda => {
                 celda.removeEventListener("click", manejarClick)
             });
-           
+
+            jugadorClase == CIRCULO ? jugadores.jugador2++ :jugadores.jugador1++
+
+            localStorage.setItem("puntaje",JSON.stringify(jugadores))
+
+            document.getElementById("jugador1").textContent = jugadores.jugador1;
+            document.getElementById("jugador2").textContent = jugadores.jugador2;
+
         }
         
         cambiarJugador();
     }
 
      
-}
-
-function limpiarClases(){
-
 }
 
 function ponerMarca(celda,jugadorClase){
@@ -111,8 +122,8 @@ function cambiarJugador(){
 //obtenemos un numero aleatorio del array
 function obtenerRandom(disponiblesArr){
         const randomIndex = Math.floor(Math.random() * (disponiblesArr.length -1));
-        const randomElement = disponiblesArr[randomIndex];
-        return randomElement;
+        return disponiblesArr[randomIndex];
+        
 }
 
 function eliminarElemento(array, elementoEliminar){
@@ -125,3 +136,4 @@ function eliminarElemento(array, elementoEliminar){
 
     return newArr;
 }
+

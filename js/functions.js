@@ -1,6 +1,8 @@
 const CIRCULO = "circulo";
 const EQUIS = "equis";
 
+const modal = document.querySelectorAll(".modal")[0];
+
 const mensaje = document.getElementById("mensaje");
 let posiciones;
 
@@ -42,6 +44,8 @@ function comenzarJuego() {
         celda.classList.remove(EQUIS);
         celda.removeEventListener("click", manejarClick);
         celda.addEventListener("click", manejarClick, { once: true });
+      //  turnoCirculo ? celda.removeEventListener("click", manejarClick):celda.addEventListener("click", manejarClick, { once: true })
+        
     });
 }
 
@@ -50,10 +54,19 @@ function manejarClick(evento) {
 
     let jugadorClase = turnoCirculo ? CIRCULO : EQUIS;
 
-    ponerMarca(celda, jugadorClase);
+    ponerMarca(celda, jugadorClase)
+    celdas.forEach(celda => {
+        celda.removeEventListener("click", manejarClick);
+    })
+    //!turnoCirculo? ponerMarca(celda, jugadorClase) : celda.removeEventListener("click", manejarClick)
+    
+    
 
     if (revisarGanador(jugadorClase)) {
+
+        modal.style.display = "block";
         mensaje.textContent = "El Ganador es: " + jugadorClase;
+
         celdas.forEach(celda => {
             celda.removeEventListener("click", manejarClick);
         });
@@ -74,7 +87,12 @@ function manejarClick(evento) {
     if (turnoCirculo && posiciones.length > 0) {
         const posicion = obtenerRandom(posiciones);
         jugadorClase = turnoCirculo ? CIRCULO : EQUIS;
-        celdas[posicion].classList.add(CIRCULO);
+
+        setTimeout(()=>{celdas[posicion].classList.add(CIRCULO)}, 500);
+        celdas.forEach(celda => {
+            celda.addEventListener("click", manejarClick, { once: true });
+        })
+
         celdas[posicion].removeEventListener("click", manejarClick);
         posiciones = eliminarElemento(posiciones, posicion);
         console.log(posiciones);

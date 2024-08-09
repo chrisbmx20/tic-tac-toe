@@ -55,19 +55,18 @@ function manejarClick(evento) {
     let jugadorClase = turnoCirculo ? CIRCULO : EQUIS;
 
     ponerMarca(celda, jugadorClase)
-    celdas.forEach(celda => {
-        celda.removeEventListener("click", manejarClick);
-    })
-    //!turnoCirculo? ponerMarca(celda, jugadorClase) : celda.removeEventListener("click", manejarClick)
     
 
     if (revisarGanador(jugadorClase)) {
-        modal.style.display = "flex";
-        mensaje.textContent = "El Ganador es: " + jugadorClase;
-
+        
         celdas.forEach(celda => {
             celda.removeEventListener("click", manejarClick);
         });
+
+        setTimeout(()=>{
+            modal.style.display = "flex";
+            mensaje.textContent = "El Ganador es: " + "X";
+        },500)
 
         jugadorClase == CIRCULO ? jugadores.jugador2++ : jugadores.jugador1++;
         localStorage.setItem("puntaje", JSON.stringify(jugadores));
@@ -76,6 +75,7 @@ function manejarClick(evento) {
         document.getElementById("jugador2").textContent = jugadores.jugador2;
         dibujarPuntaje();
     } else if (esEmpate()) {  // Verifica si es un empate
+        modal.style.display = "flex";
         mensaje.textContent = "Es un empate!";
     }
 
@@ -86,20 +86,21 @@ function manejarClick(evento) {
         const posicion = obtenerRandom(posiciones);
         jugadorClase = turnoCirculo ? CIRCULO : EQUIS;
 
-        setTimeout(()=>{celdas[posicion].classList.add(CIRCULO)}, 500);
-        celdas.forEach(celda => {
-            celda.addEventListener("click", manejarClick, { once: true });
-        })
+        celdas[posicion].classList.add(CIRCULO)
 
         celdas[posicion].removeEventListener("click", manejarClick);
         posiciones = eliminarElemento(posiciones, posicion);
         console.log(posiciones);
 
         if (revisarGanador(jugadorClase)) {
-            modal.style.display = "flex";
-            mensaje.textContent = "El Ganador es: " + jugadorClase;
+            
+            setTimeout(()=>{
+                modal.style.display = "flex";
+                mensaje.textContent = "El Ganador es: " + "O";
+            },500)
+            
             celdas.forEach(celda => {
-                celda.removeEventListener("click", manejarClick);
+                celda.addEventListener("click", manejarClick,{once:true});
             });
 
             jugadorClase == CIRCULO ? jugadores.jugador2++ : jugadores.jugador1++;
@@ -127,7 +128,6 @@ function revisarGanador(jugadorClase) {
 }
 
 function esEmpate() {
-    // Verifica si todas las celdas tienen 'circulo' o 'equis'
     return celdas.every(celda => {
         return celda.classList.contains(CIRCULO) || celda.classList.contains(EQUIS);
     });

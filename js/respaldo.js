@@ -1,38 +1,41 @@
-const  CIRCULO = "O";
-const EQUIS = "X";
+const CIRCULO = "circulo";
+const EQUIS = "equis";
 
-const mensaje = document.getElementById("mensaje")
-let  posiciones;
+const modal = document.querySelectorAll(".modal")[0];
 
+const mensaje = document.getElementById("mensaje");
+let posiciones;
 
 let jugadores = JSON.parse(localStorage.getItem("puntaje")) || {
-    jugador1 : 0,
+    jugador1: 0,
     jugador2: 0
-}
+};
 
-const COMBINACIONES_GANADORAS = [
-    [0,1,2],
-    [3,4,5],
-    [6,7,8],
-    [0,3,6],
-    [1,4,7],
-    [2,5,8],
-    [6,4,2],
-    [0,4,8]
-]
-
-let celdas = document.querySelectorAll('[data-cell]');
+// Selecciona todos los elementos con el atributo 'data-cell' y conviértelos en un array
+let celdas = Array.from(document.querySelectorAll('[data-cell]'));
 const tablero = document.getElementById("tablero");
 const reiniciar = document.getElementById('reset');
 
 let turnoCirculo = false;
 
-comenzarJuego()
+reiniciar.addEventListener("click", comenzarJuego);
 
-reiniciar.addEventListener("click",comenzarJuego);
+const COMBINACIONES_GANADORAS = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [6, 4, 2],
+    [0, 4, 8]
+];
 
-function comenzarJuego(){
-    posiciones = [0,1,2,3,4,5,6,7,8]
+comenzarJuego();
+
+function comenzarJuego() {
+    dibujarPuntaje();
+    posiciones = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 
     turnoCirculo = false;
     mensaje.innerHTML = "";
@@ -40,100 +43,120 @@ function comenzarJuego(){
         celda.classList.remove(CIRCULO);
         celda.classList.remove(EQUIS);
         celda.removeEventListener("click", manejarClick);
-        celda.addEventListener("click", manejarClick, {once:true})
+        celda.addEventListener("click", manejarClick, { once: true });
+      //  turnoCirculo ? celda.removeEventListener("click", manejarClick):celda.addEventListener("click", manejarClick, { once: true })
+        
     });
 }
 
-function manejarClick(evento){
+function manejarClick(evento) {
     const celda = evento.target;
+
+    let jugadorClase = turnoCirculo ? CIRCULO : EQUIS;
+
+    ponerMarca(celda, jugadorClase)
     
-    let jugadorClase = turnoCirculo ? CIRCULO : EQUIS
 
-    ponerMarca(celda,jugadorClase);
-
-    if(revisarGanador(jugadorClase)){
-        mensaje.textContent = "El Ganador es: "+ jugadorClase
+    if (revisarGanador(jugadorClase)) {
+        
         celdas.forEach(celda => {
-            celda.removeEventListener("click", manejarClick)
+            celda.removeEventListener("click", manejarClick);
         });
 
-        jugadorClase == CIRCULO ? jugadores.jugador2++ :jugadores.jugador1++
+        setTimeout(()=>{
+            modal.style.display = "flex";
+            mensaje.textContent = "El Ganador es: " + "X";
+        },500)
 
-        localStorage.setItem("puntaje",JSON.stringify(jugadores))
+        jugadorClase == CIRCULO ? jugadores.jugador2++ : jugadores.jugador1++;
+        localStorage.setItem("puntaje", JSON.stringify(jugadores));
 
         document.getElementById("jugador1").textContent = jugadores.jugador1;
         document.getElementById("jugador2").textContent = jugadores.jugador2;
-       
+        dibujarPuntaje();
+    } else if (esEmpate()) {  // Verifica si es un empate
+        modal.style.display = "flex";
+        mensaje.textContent = "Es un empate!";
     }
 
-    posiciones = eliminarElemento(posiciones,celda.id);
-    console.log(posiciones);
+    posiciones = eliminarElemento(posiciones, celda.id);
     cambiarJugador();
 
-    if(turnoCirculo && posiciones.length>0){
+    if (turnoCirculo && posiciones.length > 0) {
+        const posicion = obtenerRandom(posiciones);
+        jugadorClase = turnoCirculo ? CIRCULO : EQUIS;
 
-        const posicion = obtenerRandom(posiciones)
-        jugadorClase = turnoCirculo ? CIRCULO : EQUIS
-        celdas[posicion].classList.add(CIRCULO);
-        celdas[posicion].removeEventListener("click", manejarClick)
-        posiciones = eliminarElemento(posiciones,posicion);
+        celdas[posicion].classList.add(CIRCULO)
+
+        celdas[posicion].removeEventListener("click", manejarClick);
+        posiciones = eliminarElemento(posiciones, posicion);
         console.log(posiciones);
 
-        if(revisarGanador(jugadorClase)){
-            mensaje.textContent = "El Ganador es: "+ jugadorClase
+        if (revisarGanador(jugadorClase)) {
+            
+            setTimeout(()=>{
+                modal.style.display = "flex";
+                mensaje.textContent = "El Ganador es: " + "O";
+            },500)
+            
             celdas.forEach(celda => {
-                celda.removeEventListener("click", manejarClick)
+                celda.addEventListener("click", manejarClick,{once:true});
             });
 
-            jugadorClase == CIRCULO ? jugadores.jugador2++ :jugadores.jugador1++
+            jugadorClase == CIRCULO ? jugadores.jugador2++ : jugadores.jugador1++;
 
-            localStorage.setItem("puntaje",JSON.stringify(jugadores))
+            console.log("posicionesX", posiciones.length);
+            localStorage.setItem("puntaje", JSON.stringify(jugadores));
 
-            document.getElementById("jugador1").textContent = jugadores.jugador1;
-            document.getElementById("jugador2").textContent = jugadores.jugador2;
-
+            dibujarPuntaje();
         }
-        
+
         cambiarJugador();
     }
-
-     
 }
 
-function ponerMarca(celda,jugadorClase){
+function ponerMarca(celda, jugadorClase) {
     celda.classList.add(jugadorClase);
-    
 }
 
 function revisarGanador(jugadorClase) {
-
-	return COMBINACIONES_GANADORAS.some(combinacion => {
-		return combinacion.every(index => {
-			return celdas[index].classList.contains(jugadorClase)
-		})
-	})
+    return COMBINACIONES_GANADORAS.some(combinacion => {
+        return combinacion.every(index => {
+            return celdas[index].classList.contains(jugadorClase);
+        });
+    });
 }
 
-function cambiarJugador(){
+function esEmpate() {
+    return celdas.every(celda => {
+        return celda.classList.contains(CIRCULO) || celda.classList.contains(EQUIS);
+    });
+}
+
+function cambiarJugador() {
     turnoCirculo = !turnoCirculo;
 }
 
-
-//obtenemos un numero aleatorio del array
-function obtenerRandom(disponiblesArr){
-        const randomIndex = Math.floor(Math.random() * (disponiblesArr.length -1));
-        return disponiblesArr[randomIndex];
-        
+function obtenerRandom(disponiblesArr) {
+    const randomIndex = Math.floor(Math.random() * disponiblesArr.length);
+    return disponiblesArr[randomIndex];
 }
 
-function eliminarElemento(array, elementoEliminar){
-    let newArr = []
+function eliminarElemento(array, elementoEliminar) {
+    let newArr = [];
 
     array.forEach(element => {
-        element == elementoEliminar ? console.log("") : newArr.push(element)
-        
+        element == elementoEliminar ? console.log("") : newArr.push(element);
     });
 
     return newArr;
 }
 
+function dibujarPuntaje() {
+    document.getElementById("jugador1").textContent = jugadores.jugador1;
+    document.getElementById("jugador2").textContent = jugadores.jugador2;
+}
+
+function cerrarModal(){
+    modal.style.display = "none";
+}

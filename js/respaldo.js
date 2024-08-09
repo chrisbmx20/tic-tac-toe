@@ -1,5 +1,5 @@
-const  CIRCULO = "circulo";
-const EQUIS = "equis";
+const  CIRCULO = "O";
+const EQUIS = "X";
 
 const mensaje = document.getElementById("mensaje")
 let  posiciones;

@@ -60,11 +60,9 @@ function manejarClick(evento) {
     })
     //!turnoCirculo? ponerMarca(celda, jugadorClase) : celda.removeEventListener("click", manejarClick)
     
-    
 
     if (revisarGanador(jugadorClase)) {
-
-        modal.style.display = "block";
+        modal.style.display = "flex";
         mensaje.textContent = "El Ganador es: " + jugadorClase;
 
         celdas.forEach(celda => {
@@ -98,6 +96,7 @@ function manejarClick(evento) {
         console.log(posiciones);
 
         if (revisarGanador(jugadorClase)) {
+            modal.style.display = "flex";
             mensaje.textContent = "El Ganador es: " + jugadorClase;
             celdas.forEach(celda => {
                 celda.removeEventListener("click", manejarClick);
@@ -156,4 +155,8 @@ function eliminarElemento(array, elementoEliminar) {
 function dibujarPuntaje() {
     document.getElementById("jugador1").textContent = jugadores.jugador1;
     document.getElementById("jugador2").textContent = jugadores.jugador2;
+}
+
+function cerrarModal(){
+    modal.style.display = "none";
 }

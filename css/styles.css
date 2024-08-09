@@ -5,32 +5,73 @@
 }
 
 body{
-    background: rgb(2,0,36);
-background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%);
-    
+    height: 100vh;
+    background: #8E2DE2;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to bottom, #4A00E0, #8E2DE2);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to bottom, #4A00E0, #8E2DE2); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */    
     
 }
 
 #reset{
     margin:10px auto;
-    display: block;
-    padding: 10px;
     border:none;
     border-radius: 5px;
     cursor:pointer;
+    width: 70px;
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding-top:10px;
+    background-color:#4A00E0;
+    color:azure;
+
 }
 
-h3{
-    color:#ffffff;
+#reset i{
+    font-size:30px;
+    margin:0px;
+}
+
+#reset span{
+    font-size: 12px;
+    color:aliceblue;
+    background-color: transparent;
+}
+
+h2{
+    color: #262626;;
     font-size: 30px;
+    text-align: center;    
+    max-width: 100%;
+}
+
+h1{
+    text-align: center;
+    color:#ffffff;
+    font-size: 60px;
+    
 }
 .contenedor{
-    width: 460px;
+    width: 310px;
     height: 300px;
-    margin: 100px auto;
+    margin: 10px auto;
     display: flex;
+    flex-direction: column;
+    
+
+}
+
+.contenedor-general{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 600px;
+    margin: auto;
 
 
+        
 }
 
 #tablero{
@@ -42,40 +83,45 @@ h3{
 }
 
 .puntaje{
-    width: 150px;
+    width: 100%;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
 }
 
 .puntaje div p {
-    font-size: 50px;
+    font-size: 16px;
     font-weight: 700;
-    padding:10px;
-    width: 48%;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
+    font-family: cursive;
+    color:#fefefe;
+    background-color: #262626;
 }
 
 .puntaje span{
-    font-size: 50px;
+    font-size: 38px;
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding:10px;
-    width: 48%;
-
+    
+    background-color: rgba(255, 255, 255, 0.8); ;
 }
+
+
 
 .puntaje div{
     display:flex;
-    margin-top:20px;
-    width: 80%;
-    background-color: #ffffff;
+    justify-content: start;
+    width: 35%;
+    margin:20px auto;
     border-radius: 5px;
+    flex-direction:column;
+    height: 70px;
 
 }
 
@@ -117,7 +163,7 @@ h3{
     bottom: 0;
     left: 0;
     right: 0;
-    content: "O"; 
+    content: "\4f"; 
     font-size: 50px; 
     color: #262626;
     line-height: 100px;
@@ -141,26 +187,37 @@ h3{
     background-color: rgba(0, 0, 0, 0.5);
     justify-content: center;
     align-items: center;
-  }
+    justify-content: center;
+    align-items: center;
+}
 
-  /* Show the modal when the checkbox is checked */
-  #modal-toggle:checked + .modal {
-    display: flex;
-  }
-
-  /* Modal dialog styles */
-  .modal-dialog {
-    background-color: white;
+.mensaje-contenedor{
+    height: 200px;
+    width:300px;
+    background-color: #ffffff;
     border-radius: 5px;
-    max-width: 500px;
-    width: 100%;
-  }
+    display: flex;
+    flex-direction: column;
+    padding:10px;
 
-  .modal-header,
-  .modal-footer {
-    padding: 1rem;
-  }
+}
+.mensaje-header button{
+    padding:10px;
+    color:#ffffff;
+    background-color: red;
+    border:none;
+    border-radius:3px;
+}
 
-  .modal-body {
-    padding: 1rem;
-  }
+.mensaje-header{
+    display: flex;
+    justify-content: flex-end;
+    height: 40px;
+}
+
+.mensaje-body{
+    padding:20px 10px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+}

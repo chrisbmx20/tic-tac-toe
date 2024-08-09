@@ -192,12 +192,13 @@ h1{
 
 .mensaje-contenedor{
     height: 200px;
-    width:300px;
+    width:400px;
     background-color: #ffffff;
     border-radius: 5px;
     display: flex;
     flex-direction: column;
     padding:10px;
+   background-color:  rgba(255, 255, 255, 0.8)
 
 }
 .mensaje-header button{

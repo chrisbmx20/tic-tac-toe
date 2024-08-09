@@ -66,7 +66,7 @@ function manejarClick(evento) {
         setTimeout(()=>{
             modal.style.display = "flex";
             mensaje.textContent = "El Ganador es: " + "X";
-        },500)
+        },300)
 
         jugadorClase == CIRCULO ? jugadores.jugador2++ : jugadores.jugador1++;
         localStorage.setItem("puntaje", JSON.stringify(jugadores));
@@ -97,7 +97,7 @@ function manejarClick(evento) {
             setTimeout(()=>{
                 modal.style.display = "flex";
                 mensaje.textContent = "El Ganador es: " + "O";
-            },500)
+            },300)
             
             celdas.forEach(celda => {
                 celda.addEventListener("click", manejarClick,{once:true});
@@ -159,4 +159,5 @@ function dibujarPuntaje() {
 
 function cerrarModal(){
     modal.style.display = "none";
+    comenzarJuego();
 }
